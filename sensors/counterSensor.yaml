@@ -1,0 +1,20 @@
+---
+  class_name: "CounterSensor"
+  entry_point: "counterSensor.py"
+  description: "Simple polling sensor that emits count number."
+  poll_interval: 60
+  trigger_types:
+    -
+      name: "counter"
+      description: "A counter trigger."
+      payload_schema:
+        type: "object"
+        properties:
+          count:
+            type: "number"
+          pythonpath:
+            type: "string"
+          name:
+            type: "string"
+          cmd:
+            type: "string"

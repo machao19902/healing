@@ -1,0 +1,46 @@
+alertsaver_action:
+  - common_publishers:
+    - http://
+
+  - action: recrate.rabbitmq
+    interval: 1800
+    rule: '000001'
+    method_name: 'recreate_rabbitmq'
+    publishers:
+    - http://busybox/cmd/heal/rabbitmq
+    - udp://127.0.0.1:8099/
+    - tcp://127.0.0.1:8088/
+    - file://
+
+  - action: recrate.rabbitmq
+    interval: 1800
+    rule: '000002'
+    method_name: 'recreate_gnocchi_metricd'
+    publishers:
+    - http://busybox/cmd/heal/rabbitmq
+
+  - action: recrate.gnocchi-statsd
+    interval: 1800
+    rule: '000009'
+    method_name: 'recreate_gnocchi_statsd'
+    publishers:
+       - tcp://127.0.0.1:8088/
+
+  - action: recrate.gnocchi-api
+    interval: 3600
+    rule: '{"and": ["000002", "000003"]}'
+    method_name: 'recreate_gnocchi_api'
+    publishers:
+       - tcp://
+
+  - action: recrate.aodh-api
+    interval: 3600
+    rule: '{"or": ["000004", "000005"]}'
+    method_name: 'recreate_gnocchi_api'
+    publishers:
+       - tcp://
+
+  - action: recrate.ceilometer-api
+    interval: 3600
+    rule: '{"or": ["000011", {"and": ["000007", "000008"]}]}'
+    method_name: 'recreate_ceilometer_api'

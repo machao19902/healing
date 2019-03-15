@@ -1,0 +1,42 @@
+version: '2.0'
+healing.multiTask:
+    desctiption: "healing milti task mistral desctiption"
+    type: direct
+    input:
+        - cmd
+        - count
+        - timeout
+    output:
+        stdout: <% $.stdout %>
+    tasks:
+        task1:
+            action: core.local cmd=<% $.cmd %> timeout=<% $.timeout %>
+            publish:
+                result1: '<% task(task1).result.stdout %>'
+                stdout: <% task(task1).result.stdout %>
+                stderr: <% task(task1).result.stderr %>
+            on-success:
+                - task2
+            on-error:
+                - task4
+        task2:
+            action: healing.counter cmd=<% $.cmd %>  count=<% $.count %>
+            publish:
+                stdout: <% task(task2).result.stdout %>
+                stderr: <% task(task2).result.stderr %>
+            on-success:
+                - task3
+            on-error:
+                - task4
+        task3:
+            action: core.local cmd='echo task3'
+            publish:
+                stdout: <% task(task3).result.stdout %>
+                stderr: <% task(task3).result.stderr %>
+            on-error:
+                - task4
+        task4:
+            action: core.local cmd='echo task4'
+            publish:
+                stdout: <% task(task4).result.stdout %>
+                stderr: <% task(task4).result.stderr %>

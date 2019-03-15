@@ -1,0 +1,16 @@
+---
+name: 'multiTask'
+description: 'healing multi task mistral description'
+enabled: true
+runner_type: 'mistral-v2'
+entry_point: 'workflows/multiTaskMistral.yaml'
+parameters:
+  cmd:
+    required: true
+    type: string
+  count:
+    required: true
+    type: integer
+  timeout:
+    type: integer
+    default: 60

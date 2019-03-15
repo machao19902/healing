@@ -1,0 +1,16 @@
+name: "counter"
+description: "healing counter action description"
+runner_type: "python-script"
+enabled: true
+entry_point: "counterAction.py"
+parameters:
+    cmd:
+        type: "string"
+        description: "the cmd parameter"
+        required: true
+        position: 0
+    count:
+        type: "integer"
+        description: "the count parameter"
+        required: true
+        position: 1

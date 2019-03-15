@@ -1,0 +1,19 @@
+---
+    name: "counter"
+    pack: "healing"
+    description: "healing counter sensor rule description"
+    enabled: true
+
+    trigger:
+        type: "healing.counter"
+
+    criteria:
+        trigger.name:
+            type: "equals"
+            pattern: "chao"
+
+    action:
+        ref: healing.multiTask
+        parameters:
+            cmd: "{{ trigger.cmd }}"
+            count: "{{ trigger.count }}"
